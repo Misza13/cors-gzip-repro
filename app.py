@@ -21,3 +21,19 @@ def index():
             'Content-Encoding': 'gzip'
         }
     )
+
+
+@app.route('/echo', methods=['POST'], cors=True)
+def post_echo():
+    data = app.current_request.json_body
+    serialized = json.dumps(data)
+    blob = gzip.compress(serialized.encode('utf-8'))
+
+    return Response(
+        body=blob,
+        status_code=200,
+        headers={
+            'Content-Type': 'application/json',
+            'Content-Encoding': 'gzip'
+        }
+    )
